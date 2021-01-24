@@ -1026,6 +1026,24 @@ QMap<QString, BoundingBox> countryBoundingBoxes()
     romania_bb.upperRight.lon = 29.637;
     retn.insert(QLatin1String("Romania"), romania_bb);
 
+    BoundingBox russia_east_bb;
+    russia_east_bb.latShift = 0.0;
+    russia_east_bb.lonShift = 0.0;
+    russia_east_bb.lowerLeft.lat = 41.199;
+    russia_east_bb.lowerLeft.lon = 19.604;
+    russia_east_bb.upperRight.lat = 81.854;
+    russia_east_bb.upperRight.lon = 180.000;
+    retn.insert(QLatin1String("Russia - East"), russia_east_bb);
+
+    BoundingBox russia_west_bb;
+    russia_west_bb.latShift = 0.0;
+    russia_west_bb.lonShift = 0.0;
+    russia_west_bb.lowerLeft.lat = 64.280;
+    russia_west_bb.lowerLeft.lon = -180.000;
+    russia_west_bb.upperRight.lat = 71.596;
+    russia_west_bb.upperRight.lon = -169.729;
+    retn.insert(QLatin1String("Russia - West"), russia_west_bb);
+
     BoundingBox san_marino_bb;
     san_marino_bb.latShift = 0.0;
     san_marino_bb.lonShift = 0.0;
@@ -1142,6 +1160,12 @@ QMap<QString, QVector<BoundingBox> > regionBoundingBoxes()
           << cbboxes.value(QLatin1String("Australia"))
           << cbboxes.value(QLatin1String("India"));
     retn.insert(QLatin1String("Devel"), devel);
+
+    // Russia is presented both in the Eastern and Western hemispheres.
+    QVector<BoundingBox> russia;
+    russia << cbboxes.value(QLatin1String("Russia - East"))
+           << cbboxes.value(QLatin1String("Russia - West"));
+    retn.insert(QLatin1String("Russia"), russia);
 
     return retn;
 }
@@ -1434,7 +1458,9 @@ void printRegionHelp()
                     " to (double,double) latitude,longitude for all cells known"
                     " in the mls.csv within the bounding-box for that region.\n"
                     "One special region is the `Devel` region which contains just"
-                    " Finland, Australia and India.\n");
+                    " Finland, Australia and India.\n"
+                    "Another is the `Russia` region which contains both the eastern and western"
+                    " parts of the Russian Federation.");
     fprintf(stdout, "Valid regions are:\n");
     const QMap<QString, QVector<BoundingBox> > rbb(regionBoundingBoxes());
     Q_FOREACH (const QString &r, rbb.keys()) {
